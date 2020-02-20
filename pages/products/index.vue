@@ -98,6 +98,7 @@ export default {
       }
     },
     postProduct: async function(product) {
+      console.log(product);
       return axios.post(
         process.env.apiUrl + "/product/update-web",
         {

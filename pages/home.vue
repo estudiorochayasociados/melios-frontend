@@ -22,16 +22,33 @@ export default {
   data() {
     return {
       products: [],
-      messageText: '',
-      messageStatus: ''
+      messageText: "",
+      messageStatus: ""
     };
   },
   components: {
-      MessageComponent
+    MessageComponent
   },
   async mounted() {
-    const products = await axios.get(process.env.apiUrl + "/product", this.$cookies.get("header-token"));
+    const products = await axios.get(
+      process.env.apiUrl + "/product",
+      this.$cookies.get("header-token")
+    );
     this.products = products.data;
+    this.products.forEach(element => {
+      var gold_pro = element.mercadolibre.findIndex(x => x.type === "gold_pro");
+      var gold_special = element.mercadolibre.findIndex(
+        x => x.type === "gold_special"
+      );
+      const meli = [];
+      if (element.mercadolibre[gold_pro] != undefined) {
+        meli.push(element.mercadolibre[gold_pro]);
+      }
+      if (element.mercadolibre[gold_special] != undefined) {
+        meli.push(element.mercadolibre[gold_special]);
+      }
+      console.log(meli);
+    });
   },
   methods: {
     viewDiv: function(id) {

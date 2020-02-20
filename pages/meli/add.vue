@@ -16,7 +16,7 @@
         <span class="fs-14">TIPO DE PUBLICACIÓN:</span>
         <br />
         <div class="select is-fullwidth">
-          <select v-model="type">
+          <select v-model="type" @change="changeProducts()">
             <option value="gold_special">CLÁSICA (13%)</option>
             <option value="gold_pro">PREMIUM (28%)</option>
           </select>
@@ -107,8 +107,8 @@ export default {
       configMeli: [],
       tag: "",
       garanty: 0,
-      type: "",
-      all: "",
+      type: "gold_special",
+      all: false,
       shipping: true,
       total: 0
     };
@@ -141,11 +141,18 @@ export default {
       if (this.all !== "false") {
         var productoFinal = [];
         this.productsFinal.map(async (product, index) => {
-          if (product.mercadolibre.length === 0) {
+          var dataCheck = true;
+          product.mercadolibre.map(meli => {
+            if (meli.type == this.type) {
+              dataCheck = false;
+            }
+          });
+          if (dataCheck === true) {
             productoFinal.push(product);
           }
         });
         this.productsFinal = productoFinal;
+        console.log(this.productsFinal.length);
       }
     },
     addEach: async function() {
@@ -156,7 +163,7 @@ export default {
       } else {
         let percent =
           this.type == "gold_special"
-            ? this.configMeli.gold_especial_percent
+            ? this.configMeli.gold_special_percent
             : this.configMeli.gold_pro_percent;
 
         this.productsFinal[0].title =

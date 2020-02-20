@@ -99,7 +99,6 @@ export default {
     const configMeli = await axios.get(
       process.env.apiUrl + "/mercadolibre/config"
     );
-
     this.checkToken = checkToken.data[0];
     this.configMeli = configMeli.data[0];
     this.products = products.data;
@@ -109,19 +108,23 @@ export default {
     prepareArrayProducts: async function() {
       this.products.forEach(product => {
         if (product.mercadolibre.length != 0) {
-          const arrayProduct = [];
-          arrayProduct.push(product);
-          product.mercadolibre.forEach(meli => {
-            this.meliTotal++;
-            let percent =
-              meli.type == "gold_special"
-                ? this.configMeli.gold_especial_percent
-                : this.configMeli.gold_pro_percent;
-            arrayProduct.push(meli.code);
-            arrayProduct.push(meli.type);
-            arrayProduct.push(percent);
+          product.mercadolibre.forEach(async meli => {
+            var status = await axios.get(
+              "https://api.mercadolibre.com/items/" + meli.code
+            );
+            if (status.data.status != "paused" && product.stock != 0) {
+              const arrayProduct = [];
+              arrayProduct[0] = product;
+              let percent =
+                meli.type == "gold_special"
+                  ? this.configMeli.gold_special_percent
+                  : this.configMeli.gold_pro_percent;
+              arrayProduct[1] = meli.code;
+              arrayProduct[2] = meli.type;
+              arrayProduct[3] = percent;
+              this.prepareArray.push(arrayProduct);
+            }
           });
-          this.prepareArray.push(arrayProduct);
         }
       });
     },
@@ -144,28 +147,17 @@ export default {
           this.loop = false;
           break;
         }
-        var status = await axios.get(
-          "https://api.mercadolibre.com/items/" + this.prepareArray[i][1]
-        );
-        if (
-          status.data.status != "paused" &&
-          this.prepareArray[i][0].stock != 0
-        ) {
-          this.putMercadolibre(
-            this.prepareArray[i][0],
-            this.prepareArray[i][1],
-            this.prepareArray[i][2],
-            this.prepareArray[i][3]
-          ).then(r => {
-            this.response.push(r.data);
-          });
-        } else {
-          this.response.push({
-            title: this.prepareArray[i][0].title,
-            error: { message: "Pausado y sin stock" }
-          });
-        }
-        this.total++;
+        this.putMercadolibre(
+          this.prepareArray[i][0],
+          this.prepareArray[i][1],
+          this.prepareArray[i][2],
+          this.prepareArray[i][3]
+        ).then(r => {
+          this.response.push(r.data);
+          this.meliTotal++;
+          this.total++;
+        });
+
         console.log(this.loop);
         console.log(i);
       }

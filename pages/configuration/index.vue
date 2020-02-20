@@ -5,14 +5,18 @@
       class="subtitle"
     >Aplicá las configuraciones de publicaciones que te gustaría que tus productos cumplan</h2>
     <hr />
-      <MessageComponent v-bind:text="this.message.text" v-bind:status="this.message.status"  class="mb-10"/>
+    <MessageComponent
+      v-bind:text="this.message.text"
+      v-bind:status="this.message.status"
+      class="mb-10"
+    />
     <div class="columns">
       <div class="column">
         Publicaciones Clásicas:
         <input
           class="input"
           type="text"
-          v-model="configuration.gold_especial_percent"
+          v-model="configuration.gold_special_percent"
         />
       </div>
       <div class="column">
@@ -63,7 +67,7 @@ export default {
       process.env.apiUrl + "/mercadolibre/config",
       this.$cookies.get("header-token")
     );
-    this.configuration = config.data[0];    
+    this.configuration = config.data[0];
   },
   methods: {
     submit: async function() {
