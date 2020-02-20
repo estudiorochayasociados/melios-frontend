@@ -65,10 +65,10 @@ export default {
     }
   },
   env: {
-    // baseUrl: 'http://localhost:3000',
-    // apiUrl: 'http://localhost:8000',
-    baseUrl: 'https://morano-meli-frontend.herokuapp.com',
-    apiUrl: 'https://morano-meli-backend.herokuapp.com',
+    baseUrl: 'http://localhost:3000',
+    apiUrl: 'http://localhost:8000',
+    // baseUrl: 'https://morano-meli-frontend.herokuapp.com',
+    // apiUrl: 'https://morano-meli-backend.herokuapp.com',
     product: 'https://www.morano.com.ar/api/products/list-json.php'
   }
 }
