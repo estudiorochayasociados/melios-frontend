@@ -87,14 +87,14 @@ export default {
     },
     forFinal: async function(inicio, fin) {
       for (var i = inicio; i < fin; i++) {
-        if (Object.keys(this.webProduct[i]).length != 0) {
-          this.postProduct(this.webProduct[i]).then(r => {
-            if (r.data.status === 200) {
-              this.total++;
-            }
-            this.responseWebProduct.push(r.data);
-          });
-        }
+        //if (Object.keys(this.webProduct[i]).length != 0) {
+        this.postProduct(this.webProduct[i]).then(r => {
+          if (r.data.status === 200) {
+            this.total++;
+          }
+          this.responseWebProduct.push(r.data);
+        });
+        //}
       }
     },
     postProduct: async function(product) {
