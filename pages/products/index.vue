@@ -67,6 +67,7 @@ export default {
     document.getElementById("boton").removeAttribute("disabled");
     this.textButton = "ACTUALIZAR PRODUCTOS HACIENDO CLICK";
     this.webProduct = web.data;
+    console.log(this.webProduct);
   },
   methods: {
     viewDiv: function(id) {
@@ -93,12 +94,10 @@ export default {
             }
             this.responseWebProduct.push(r.data);
           });
-          console.log(i);
         }
       }
     },
     postProduct: async function(product) {
-      console.log(product);
       return axios.post(
         process.env.apiUrl + "/product/update-web",
         {
