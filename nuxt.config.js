@@ -69,6 +69,6 @@ export default {
     //apiUrl: 'http://localhost:8000',
     baseUrl: 'https://aimar-meli-frontend.herokuapp.com',
     apiUrl: 'https://aimar-meli-backend.herokuapp.com',
-    product: 'https://www.morano.com.ar/api/products/list-json.php'
+    product: 'https://www.aimarrepuestos.com.ar/exportador/curl/exportador/jsonProducts.php'
   }
 }
