@@ -1,0 +1,26 @@
+{
+  "name": "meli-nuxt",
+  "version": "1.0.0",
+  "description": "My lovely Nuxt.js project",
+  "author": "FACUNDO ROCHA",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.9.5",
+    "@nuxtjs/bulma": "^1.2.7",
+    "@nuxtjs/dotenv": "^1.4.0",
+    "bootstrap-vue": "^2.5.0",
+    "cookie-universal-nuxt": "^2.1.2",
+    "nuxt": "^2.0.0",
+    "nuxt-material-design-icons": "^1.0.4",
+    "nuxt-session": "^1.0.3"
+  },
+  "devDependencies": {
+    "bulma": "^0.8.0"
+  }
+}
