@@ -139,7 +139,7 @@ export default {
           await this.forFinal(init, total);
           this.updateEach(total);
         }
-      }, 1000);
+      }, 5000);
     },
     forFinal: async function(inicio, fin) {
       for (var i = inicio; i < fin; i++) {
