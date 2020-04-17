@@ -49,11 +49,17 @@
                   <b>Código MercadoLibre:</b>
                   {{ response_.code }}
                   <br />
+                  <b>MercadoEnvios:</b>
+                  ${{ response_.priceShipping }}
+                  <br />
+                  <b>Precio Real:</b>
+                  ${{ response_.realPrice }}
+                  <br />
                   <b>Precio MercadoLibre:</b>
-                  {{ response_.price }}
+                  ${{ response_.price }}
                   <br />
                   <b>Porcentaje de recargo aplicado:</b>
-                  {{ response_.percent }}
+                  {{ response_.percent }}%
                 </div>
                 <div v-else>
                   <b>ERROR:</b>
@@ -88,7 +94,7 @@ export default {
   },
   async mounted() {
     const products = await axios.get(
-      process.env.apiUrl + "/product",
+      process.env.apiUrl + "/product?limit=20",
       this.$cookies.get("header-token")
     );
 
@@ -101,30 +107,31 @@ export default {
     );
     this.checkToken = checkToken.data[0];
     this.configMeli = configMeli.data[0];
+
+    console.log(this.configMeli);
+
     this.products = products.data;
     await this.prepareArrayProducts();
   },
   methods: {
     prepareArrayProducts: async function() {
-      this.products.forEach(product => {
+      var i = 0;
+      this.products.forEach(product => {       
         if (product.mercadolibre.length != 0) {
           product.mercadolibre.forEach(async meli => {
-            var status = await axios.get(
-              "https://api.mercadolibre.com/items/" + meli.code
-            );
-            if (status.data.status != "paused" && product.stock != 0) {
+            // var status = await axios.get(
+            //   "https://api.mercadolibre.com/items/" + meli.code
+            // );
+            // if (status.data.status != "paused" && product.stock != 0) {
               const arrayProduct = [];
               arrayProduct[0] = product;
-              let percent =
-                meli.type == "gold_special"
-                  ? this.configMeli.gold_special_percent
-                  : this.configMeli.gold_pro_percent;
+              let percent = (meli.type == "gold_special") ? this.configMeli.gold_special_percent: this.configMeli.gold_pro_percent;
               arrayProduct[1] = meli.code;
               arrayProduct[2] = meli.type;
               arrayProduct[3] = percent;
               this.prepareArray.push(arrayProduct);
-            }
-          });
+          //  }         
+           });   
         }
       });
     },

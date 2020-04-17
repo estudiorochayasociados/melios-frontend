@@ -5,10 +5,12 @@
     <table class="table is-fullwidth mt-20">
       <thead>
         <th>Producto</th>
+        <th>Precio</th>
       </thead>
       <tbody>
         <tr v-for="product in products">
           <td>{{ product.title }}</td>
+          <td>${{ product.price.default }}</td>
         </tr>
       </tbody>
     </table>

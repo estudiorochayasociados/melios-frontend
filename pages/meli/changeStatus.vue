@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <h2>TOTAL DE PRODUCTOS A AGREGAR: {{ products.length }}</h2>
-    <button @click="addEach" class="btn btn-success btn-block">Modificar productos a Mercadolibre</button>
+    <button
+      @click="changeStatus('active')"
+      class="btn btn-success btn-block"
+    >Modificar productos a Mercadolibre</button>
     <br />
     <br />
     <hr />
@@ -17,10 +20,8 @@
             <th>Mensaje</th>
           </thead>
           <tbody>
-            <tr v-for="response_ in response" >
-              <td> 
-                  {{ response_ }}
-              </td>
+            <tr v-for="response_ in response">
+              <td>{{ response_ }}</td>
             </tr>
           </tbody>
         </table>
@@ -40,24 +41,29 @@ export default {
     };
   },
   async mounted() {
-    const products = await axios.get(process.env.apiUrl + "/product");
-    this.products = products.data;    
+    const products = await axios.get(
+      process.env.apiUrl + "/product",
+      this.$cookies.get("header-token")
+    );
+    this.products = products.data;
+    console.log(this.products);
   },
   methods: {
-    addEach: async function() {
-      await this.$data.products.forEach(async product => {
+    changeStatus: async function(status) {
+      await this.products.forEach(async product => {
         await product.mercadolibre.forEach(async meli => {
-          const meliPostItem = await axios.put(
+          const meliPostItem = await axios.post(
             process.env.apiUrl + "/mercadolibre/change-status/" + meli.code,
             {
-              status: "paused"
-            }
+              status: status
+            },
+            this.$cookies.get("header-token")
           );
           console.log(meliPostItem);
           if (meliPostItem.data.status === 200) {
-            this.$data.total += 1;
+            this.total += 1;
           }
-          await this.$data.response.push(meliPostItem.data);
+          await this.response.push(meliPostItem.data);
         });
       });
     }
