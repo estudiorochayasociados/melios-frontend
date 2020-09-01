@@ -113,18 +113,18 @@ export default {
             //   "https://api.mercadolibre.com/items/" + meli.code
             // );
             // if (status.data.status != "paused" && product.stock != 0) {
-              const arrayProduct = [];
-              arrayProduct[0] = product;
-              let percent =
-                meli.type == "gold_special"
-                  ? this.configMeli.gold_special_percent
-                  : this.configMeli.gold_pro_percent;
-              arrayProduct[1] = meli.code;
-              arrayProduct[2] = meli.type;
-              arrayProduct[3] = percent;
-              this.prepareArray.push(arrayProduct);
-          //   }
-           });
+            const arrayProduct = [];
+            arrayProduct[0] = product;
+            let percent =
+              meli.type == "gold_special"
+                ? this.configMeli.gold_special_percent
+                : this.configMeli.gold_pro_percent;
+            arrayProduct[1] = meli.code;
+            arrayProduct[2] = meli.type;
+            arrayProduct[3] = percent;
+            this.prepareArray.push(arrayProduct);
+            //   }
+          });
         }
       });
     },
