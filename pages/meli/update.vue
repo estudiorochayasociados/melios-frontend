@@ -109,10 +109,10 @@ export default {
       this.products.forEach(product => {
         if (product.mercadolibre.length != 0) {
           product.mercadolibre.forEach(async meli => {
-            var status = await axios.get(
-              "https://api.mercadolibre.com/items/" + meli.code
-            );
-            if (status.data.status != "paused" && product.stock != 0) {
+            // var status = await axios.get(
+            //   "https://api.mercadolibre.com/items/" + meli.code
+            // );
+            // if (status.data.status != "paused" && product.stock != 0) {
               const arrayProduct = [];
               arrayProduct[0] = product;
               let percent =
@@ -123,8 +123,8 @@ export default {
               arrayProduct[2] = meli.type;
               arrayProduct[3] = percent;
               this.prepareArray.push(arrayProduct);
-            }
-          });
+          //   }
+           });
         }
       });
     },
